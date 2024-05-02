@@ -9,6 +9,7 @@ class DeviceLockModel(Enum):
     LEVER = "LEVER"
     UBolt = "U-Bolt"
     UBoltWiFi = "U-Bolt-WiFi"
+    UBoltProWifi = "U-Bolt-Pro-WiFi"
     UBoltZWave = "U-Bolt-ZWave"
     UL3 = "SmartLockByBle"
     UL3_2ND = "UL3-2ND"

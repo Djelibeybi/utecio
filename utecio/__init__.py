@@ -1,4 +1,5 @@
 import logging
+from dataclasses import dataclass, asdict
 
 logger = logging.getLogger("utecio")
 
@@ -12,59 +13,60 @@ if not logger.hasHandlers():
     logger.addHandler(ch)
 
 
+@dataclass
 class DeviceDefinition:
     model = ""
+    lock: bool = False
+    door: bool = False
+    keypad: bool = False
+    fingprinter: bool = False
+    doublefp: bool = False
+    bluetooth: bool = False
+    rfid: bool = False
+    rfid_once: bool = False
+    rfid_twice: bool = False
+    autobolt: bool = False
+    autolock: bool = False
+    autounlock: bool = False
+    direction: bool = False
+    update_ota: bool = False
+    update_oad: bool = False
+    update_wifi: bool = False
+    alerts: bool = False
+    mutemode: bool = False
+    passage: bool = False
+    lockout: bool = False
+    manual: bool = False
+    shakeopen: bool = False
+    moreadmin: bool = False
+    morepwd: bool = False
+    timelimit: bool = False
+    morelanguage: bool = False
+    needregristerpwd: bool = False
+    locklocal: bool = False
+    havesn: bool = False
+    clone: bool = False
+    customuserid: bool = False
+    bt264: bool = False
+    keepalive: bool = False
+    passageautolock: bool = False
+    doorsensor: bool = False
+    zwave: bool = False
+    needreadmodel: bool = False
+    needsycbuser: bool = False
+    bt_close: bool = False
+    singlelatchboltmortic: bool = False
+    smartphone_nfc: bool = False
+    update_2642: bool = False
+    isautodirection: bool = False
+    ishomekit: bool = False
+    isyeeuu: bool = False
+    secondsarray = []
+    mtimearray = []
+    adduserremovenum = 4
 
-    def __init__(self) -> None:
-        self.lock: bool = False
-        self.door: bool = False
-        self.keypad: bool = False
-        self.fingprinter: bool = False
-        self.doublefp: bool = False
-        self.bluetooth: bool = False
-        self.rfid: bool = False
-        self.rfid_once: bool = False
-        self.rfid_twice: bool = False
-        self.autobolt: bool = False
-        self.autolock: bool = False
-        self.autounlock: bool = False
-        self.direction: bool = False
-        self.update_ota: bool = False
-        self.update_oad: bool = False
-        self.update_wifi: bool = False
-        self.alerts: bool = False
-        self.mutemode: bool = False
-        self.passage: bool = False
-        self.lockout: bool = False
-        self.manual: bool = False
-        self.shakeopen: bool = False
-        self.moreadmin: bool = False
-        self.morepwd: bool = False
-        self.timelimit: bool = False
-        self.morelanguage: bool = False
-        self.needregristerpwd: bool = False
-        self.locklocal: bool = False
-        self.havesn: bool = False
-        self.clone: bool = False
-        self.customuserid: bool = False
-        self.bt264: bool = False
-        self.keepalive: bool = False
-        self.passageautolock: bool = False
-        self.doorsensor: bool = False
-        self.zwave: bool = False
-        self.needreadmodel: bool = False
-        self.needsycbuser: bool = False
-        self.bt_close: bool = False
-        self.singlelatchboltmortic: bool = False
-        self.smartphone_nfc: bool = False
-        self.update_2642: bool = False
-        self.isautodirection: bool = False
-        self.ishomekit: bool = False
-        self.isyeeuu: bool = False
-        self.secondsarray = []
-        self.mtimearray = []
-        self.adduserremovenum = 4
-
+    def as_dict(self):
+        return asdict(self)
 
 class DeviceLockLatch5Finger(DeviceDefinition):
     model = "Latch-5-F"
@@ -259,6 +261,34 @@ class DeviceLockUboltWiFi(DeviceDefinition):
         self.autounlock = True
 
 
+class DeviceLockUboltProWifi(DeviceDefinition):
+    model = "U-Bolt-Pro-WiFi"
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.lock = True
+        self.bluetooth = True
+        self.autolock = True
+        self.update_ota = True
+        self.update_wifi = True
+        self.direction = True
+        self.alerts = True
+        self.mutemode = True
+        self.manual = True
+        self.shakeopen = True
+        self.havesn = True
+        self.needreadmodel = True
+        self.keypad = True
+        self.needregristerpwd = True
+        self.timelimit = True
+        self.moreadmin = True
+        self.lockout = True
+        self.bt264 = False
+        self.doorsensor = True
+        self.keepalive = True
+        self.autounlock = True
+
+
 class DeviceLockUBoltZwave(DeviceDefinition):
     model = "U-Bolt-ZWave"
 
@@ -388,6 +418,7 @@ known_devices: dict[str, DeviceDefinition] = {
     DeviceLockLever.model: DeviceLockLever(),
     DeviceLockUBolt.model: DeviceLockUBolt(),
     DeviceLockUboltWiFi.model: DeviceLockUboltWiFi(),
+    DeviceLockUboltProWifi.model: DeviceLockUboltProWifi(),
     DeviceLockUBoltZwave.model: DeviceLockUBoltZwave(),
     DeviceLockUL3.model: DeviceLockUL3(),
     DeviceLockUL300.model: DeviceLockUL300(),

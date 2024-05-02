@@ -73,6 +73,24 @@ class UtecBleDevice:
         self.is_busy = False
         self.device_time_offset: datetime.timedelta
 
+    def to_json(self) -> dict[str, Any]:
+        return {
+            "mac_uuid": self.mac_uuid,
+            "wurx_uuid": self.wurx_uuid,
+            "uid": self.uid,
+            "device_name": self.name,
+            "model": self.model,
+            "capabilities": self.capabilities.as_dict(),
+            "config": self.config,
+            "lock_status": self.lock_status,
+            "lock_mode": self.lock_mode,
+            "autolock_time": self.autolock_time,
+            "battery": self.battery,
+            "mute": self.mute,
+            "bolt_status": self.bolt_status,
+            "sn": self.sn
+        }
+
     @classmethod
     def from_json(cls, json_config: dict[str, Any]):
         new_device = cls(
@@ -105,7 +123,7 @@ class UtecBleDevice:
 
     def debug(self, msg: object, *args: object):
         if logger.level < 20:
-            logger.debug(msg, args)
+            logger.debug(msg, *args)
 
     def add_request(self, request: "UtecBleRequest", priority: bool = False):
         request.device = self
@@ -174,7 +192,7 @@ class UtecBleDevice:
 
             for request in self._requests[:]:
                 if not request.sent or not request.response.completed:
-                    # logger.debug("(%s) Sending command - %s (%s)",self.mac_uuid,request.command.name,request.package.hex())
+                    logger.debug("(%s) Sending command - %s (%s)",self.mac_uuid,request.command.name,request.package.hex())
                     request.aes_key = aes_key
                     request.device = self
                     request.sent = True
